@@ -18,4 +18,4 @@ make -C app build
 make -C app build
 ```
 
-### [Click here](**https://java-project-99-jnql.onrender.com**) to start analyzing!
+### [Click here](**https://java-project-99-jnql.onrender.com**) to start task manager!
