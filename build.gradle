@@ -12,6 +12,9 @@ application {
 	mainClass = "hexlet.code.AppApplication"
 }
 
+repositories {
+	mavenCentral()
+}
 
 java {
 	toolchain {
