@@ -14,10 +14,11 @@ RUN mv gradle-${GRADLE_VERSION} ${GRADLE_HOME}
 
 ENV PATH=$PATH:$GRADLE_HOME/bin
 
-WORKDIR /app
+WORKDIR .
 
-COPY /app .
+COPY ./ .
 
 RUN gradle installDist
 
-CMD ./build/install/app/bin/app
+
+CMD /build/install/app/bin/app
