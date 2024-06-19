@@ -1,0 +1,16 @@
+Hostname dpg-cpphq3tds78s73e95p3g-a
+
+Port 5432
+
+Database java_project_99_98yy
+
+Username java_project_99_98yy_user
+
+Password lpfBMVH1IdBfE5fyBONfcQoGV2AeRWzS
+
+Internal Database URL postgres://java_project_99_98yy_user:lpfBMVH1IdBfE5fyBONfcQoGV2AeRWzS@dpg-cpphq3tds78s73e95p3g-a/java_project_99_98yy
+
+External Database URL postgres://java_project_99_98yy_user:lpfBMVH1IdBfE5fyBONfcQoGV2AeRWzS@dpg-cpphq3tds78s73e95p3g-a.oregon-postgres.render.com/java_project_99_98yy
+
+PSQL Command PGPASSWORD=lpfBMVH1IdBfE5fyBONfcQoGV2AeRWzS psql -h dpg-cpphq3tds78s73e95p3g-a.oregon-postgres.render.com -U java_project_99_98yy_user java_project_99_98yy
+
