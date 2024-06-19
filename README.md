@@ -10,12 +10,12 @@ This application TASK MANAGER.
 ### Install:
 git@github.com:Maxonquall/java-project-99.git
 cd java-project-99/app
-make -C app build
+make -C  build
 
 ## Setup
 
 ```bash
-make -C app build
+make -C build
 ```
 
 ### [Click here](**https://java-project-99-jnql.onrender.com**) to start task manager!
