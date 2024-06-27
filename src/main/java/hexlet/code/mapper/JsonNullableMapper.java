@@ -18,11 +18,6 @@ public abstract class JsonNullableMapper {
         return jsonNullable == null ? null : jsonNullable.orElse(null);
     }
 
-    /**
-     * Checks whether nullable parameter was passed explicitly.
-     *
-     * @return true if value was set explicitly, false otherwise
-     */
     @Condition
     public <T> boolean isPresent(JsonNullable<T> nullable) {
         return nullable != null && nullable.isPresent();

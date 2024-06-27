@@ -1,6 +1,13 @@
 package hexlet.code.mapper;
 
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+
+import org.mapstruct.MappingConstants;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.BeforeMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -38,13 +45,4 @@ public abstract class UserMapper {
         data.setPassword(encoder.encode(password));
     }
 
-//    @AfterMapping
-//    public void encryptPassword(UserCreateDTO data, @MappingTarget User user) {
-//        var rawPassword = user.getRawPassword();
-//        if (rawPassword != null) {
-//            user.setPasswordDigest(encoder.encode(rawPassword));
-//            user.setRawPassword(null); // очистка временного поля
-//        }
-//    }
-//
 }
