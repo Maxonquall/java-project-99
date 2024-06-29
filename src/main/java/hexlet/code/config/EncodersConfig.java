@@ -25,10 +25,10 @@ public class EncodersConfig {
     @Autowired
     private RsaKeyProperties rsaKeys;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 
     @Bean
     JwtEncoder jwtEncoder() {
