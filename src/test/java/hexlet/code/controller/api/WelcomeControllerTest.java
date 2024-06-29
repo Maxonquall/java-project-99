@@ -18,7 +18,7 @@ public class WelcomeControllerTest {
 
 
     @Test
-    @WithMockUser // Использует стандартного пользователя для теста
+    @WithMockUser
     public void testIndex() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/welcome"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
