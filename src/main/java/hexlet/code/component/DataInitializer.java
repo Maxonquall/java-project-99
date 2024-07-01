@@ -32,6 +32,8 @@ public class DataInitializer implements ApplicationRunner {
         admin.setLastName(faker.name().lastName());
         admin.setEmail("hexlet@example.com");
         admin.setPasswordDigest("qwerty");
+        userService.createUser(admin);
+
 
     }
 //        var email = "hexlet@example.com";
