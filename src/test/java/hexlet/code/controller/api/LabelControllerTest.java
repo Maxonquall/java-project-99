@@ -2,7 +2,6 @@ package hexlet.code.controller.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -18,7 +17,6 @@ import java.util.List;
 import com.fasterxml.jackson.core.type.TypeReference;
 import hexlet.code.controller.api.util.ModelGenerator;
 import org.instancio.Instancio;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +32,6 @@ import net.datafaker.Faker;
 import hexlet.code.model.Label;
 import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.TaskRepository;
-import hexlet.code.util.UserUtils;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -69,97 +66,97 @@ public class LabelControllerTest {
     private Label testLabel;
 
     @BeforeEach
-    public void setUp () {
-            mockMvc = MockMvcBuilders.webAppContextSetup(wac)
-                    .defaultResponseCharacterEncoding(StandardCharsets.UTF_8)
-                    .apply(springSecurity())
-                    .build();
+    public void setUp() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac)
+                .defaultResponseCharacterEncoding(StandardCharsets.UTF_8)
+                .apply(springSecurity())
+                .build();
 
-            token = jwt().jwt(builder -> builder.subject("hexlet@example.com"));
-            testLabel = Instancio.of(modelGenerator.getLabelModel())
-                    .create();
-            labelRepository.save(testLabel);
-        }
+        token = jwt().jwt(builder -> builder.subject("hexlet@example.com"));
+        testLabel = Instancio.of(modelGenerator.getLabelModel())
+                .create();
+        labelRepository.save(testLabel);
+    }
 
-        @Test
-        public void testIndex () throws Exception {
-            var request = get("/api/labels")
-                    .with(token);
+    @Test
+    public void testIndex() throws Exception {
+        var request = get("/api/labels")
+                .with(token);
 
-            var result = mockMvc.perform(request)
-                    .andExpect(status().isOk())
-                    .andReturn();
+        var result = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andReturn();
 
-            var body = result.getResponse().getContentAsString();
-            var labels = om.readValue(body, new TypeReference<List<Label>>() {
-            });
-            var expected = labelRepository.findAll();
+        var body = result.getResponse().getContentAsString();
+        var labels = om.readValue(body, new TypeReference<List<Label>>() {
+        });
+        var expected = labelRepository.findAll();
 
-            assertThat(labels.containsAll(expected));
-        }
+        assertThat(labels.containsAll(expected));
+    }
 
-        @Test
-        public void testCreate () throws Exception {
-            var data = Instancio.of(modelGenerator.getLabelModel())
-                    .create();
+    @Test
+    public void testCreate() throws Exception {
+        var data = Instancio.of(modelGenerator.getLabelModel())
+                .create();
 
-            var labelsCount = labelRepository.count();
+        var labelsCount = labelRepository.count();
 
-            var request = post("/api/labels")
-                    .with(token)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(om.writeValueAsString(data));
+        var request = post("/api/labels")
+                .with(token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(om.writeValueAsString(data));
 
-            mockMvc.perform(request)
-                    .andExpect(status().isCreated());
+        mockMvc.perform(request)
+                .andExpect(status().isCreated());
 
-            assertThat(labelRepository.count()).isEqualTo(labelsCount + 1);
+        assertThat(labelRepository.count()).isEqualTo(labelsCount + 1);
 
-            var addedLabel = labelRepository.findByName(data.getName()).get();
+        var addedLabel = labelRepository.findByName(data.getName()).get();
 
-            assertNotNull(addedLabel);
-            assertThat(labelRepository.findByName(testLabel.getName())).isPresent();
+        assertNotNull(addedLabel);
+        assertThat(labelRepository.findByName(testLabel.getName())).isPresent();
 
-            assertThat(addedLabel.getName()).isEqualTo(data.getName());
-        }
+        assertThat(addedLabel.getName()).isEqualTo(data.getName());
+    }
 
-        @Test
-        public void testUpdate () throws Exception {
-            var oldName = testLabel.getName();
-            var newName = faker.lorem().word();
+    @Test
+    public void testUpdate() throws Exception {
+        var oldName = testLabel.getName();
+        var newName = faker.lorem().word();
 
-            var data = new HashMap<>();
-            data.put("name", newName);
+        var data = new HashMap<>();
+        data.put("name", newName);
 
-            var labelsCount = labelRepository.count();
+        var labelsCount = labelRepository.count();
 
-            var request = put("/api/labels/" + testLabel.getId())
-                    .with(token)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(om.writeValueAsString(data));
+        var request = put("/api/labels/" + testLabel.getId())
+                .with(token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(om.writeValueAsString(data));
 
-            mockMvc.perform(request)
-                    .andExpect(status().isOk());
+        mockMvc.perform(request)
+                .andExpect(status().isOk());
 
-            assertThat(labelRepository.count()).isEqualTo(labelsCount);
+        assertThat(labelRepository.count()).isEqualTo(labelsCount);
 
-            var label = labelRepository.findById(testLabel.getId()).get();
+        var label = labelRepository.findById(testLabel.getId()).get();
 
-            assertThat(label.getName()).isEqualTo(newName);
-            assertThat(labelRepository.findByName(oldName)).isEmpty();
-        }
+        assertThat(label.getName()).isEqualTo(newName);
+        assertThat(labelRepository.findByName(oldName)).isEmpty();
+    }
 
-        @Test
-        public void testDestroy () throws Exception {
-            var labelsCount = labelRepository.count();
+    @Test
+    public void testDestroy() throws Exception {
+        var labelsCount = labelRepository.count();
 
-            token = jwt().jwt(builder -> builder.subject(testLabel.getName()));
+        token = jwt().jwt(builder -> builder.subject(testLabel.getName()));
 
-            mockMvc.perform(delete("/api/labels/" + testLabel.getId()).with(token))
-                    .andExpect(status().isNoContent());
+        mockMvc.perform(delete("/api/labels/" + testLabel.getId()).with(token))
+                .andExpect(status().isNoContent());
 
-            assertThat(labelRepository.count()).isEqualTo(labelsCount - 1);
-            assertThat(labelRepository.findById(testLabel.getId())).isEmpty();
-        }
+        assertThat(labelRepository.count()).isEqualTo(labelsCount - 1);
+        assertThat(labelRepository.findById(testLabel.getId())).isEmpty();
+    }
 
 }

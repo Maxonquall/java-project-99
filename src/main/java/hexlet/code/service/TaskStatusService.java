@@ -13,6 +13,7 @@ import hexlet.code.dto.TaskStatusUpdateDTO;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TaskStatusService {
 
     @Autowired
