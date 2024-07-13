@@ -8,17 +8,11 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class UserDTO {
+public class LabelDTO {
 
     private Long id;
 
-    private String firstName;
-
-    private String lastName;
-
-    private String email;
-
-    private String password;
+    private String name;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private LocalDateTime createdAt;

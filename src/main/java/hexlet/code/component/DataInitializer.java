@@ -2,6 +2,8 @@ package hexlet.code.component;
 
 
 
+import hexlet.code.model.TaskStatus;
+import hexlet.code.model.Label;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -12,6 +14,8 @@ import hexlet.code.repository.UserRepository;
 import hexlet.code.service.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
 import net.datafaker.Faker;
+
+
 
 @Component
 @AllArgsConstructor
@@ -34,22 +38,34 @@ public class DataInitializer implements ApplicationRunner {
         admin.setPasswordDigest("qwerty");
         userService.createUser(admin);
 
+        var draft = new TaskStatus();
+        draft.setName("draft");
+        draft.setSlug("draft");
+
+        var toReview = new TaskStatus();
+        toReview.setName("to review");
+        toReview.setSlug("to_review");
+
+        var toBeFixed = new TaskStatus();
+        toBeFixed.setName("to be fixed");
+        toBeFixed.setSlug("to_be_fixed");
+
+        var toPublish = new TaskStatus();
+        toPublish.setName("to publish");
+        toPublish.setSlug("to_publish");
+
+        var published = new TaskStatus();
+        published.setName("published");
+        published.setSlug("published");
+
+        var feature = new Label();
+        feature.setName("feature");
+
+        var bug = new Label();
+        bug.setName("bug");
 
     }
-//        var email = "hexlet@example.com";
-//        var userData = new User();
-//        userData.setEmail(email);
-//        userData.setPasswordDigest("qwerty");
-//        userService.createUser(userData);
-//
-//        var user = userRepository.findByEmail(email).get();
-//
-//        var faker = new Faker();
-//        IntStream.range(1, 10).forEach(i -> {
-//           // var user = new User();
-//            user.setFirstName(faker.name().firstName());
-//            user.setLastName(faker.name().lastName());
-//            userRepository.save(user);
-//        });
-//    }
+
+
+
 }
