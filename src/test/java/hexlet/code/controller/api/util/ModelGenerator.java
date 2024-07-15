@@ -37,13 +37,13 @@ public class ModelGenerator {
     private Model<Label> labelModel;
 
     @Autowired
-    private static UserRepository userRepository;
+    private  UserRepository userRepository;
 
     @Autowired
     private LabelRepository labelRepository;
 
     @Autowired
-    private static TaskStatusRepository taskStatusRepository;
+    private  TaskStatusRepository taskStatusRepository;
 
     @Autowired
     private Faker faker;
