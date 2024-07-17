@@ -19,6 +19,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import hexlet.code.controller.api.util.ModelGenerator;
 import net.javacrumbs.jsonunit.core.Option;
 import org.instancio.Instancio;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +83,13 @@ public class TaskControllerTest {
         testTask = Instancio.of(modelGenerator.getTaskModel())
                 .create();
         taskRepository.save(testTask);
+
+    }
+
+    @AfterEach
+    public void clear() {
+        taskRepository.deleteAll();
+        taskStatusRepository.deleteAll();
 
     }
 
