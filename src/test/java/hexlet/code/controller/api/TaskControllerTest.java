@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import hexlet.code.controller.api.util.ModelGenerator;
+import hexlet.code.repository.UserRepository;
 import net.javacrumbs.jsonunit.core.Option;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.AfterEach;
@@ -56,6 +57,9 @@ public class TaskControllerTest {
     private TaskStatusRepository taskStatusRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private ModelGenerator modelGenerator;
 
     @Autowired
@@ -88,9 +92,10 @@ public class TaskControllerTest {
 
     @AfterEach
     public void clear() {
-        taskRepository.deleteAll();
-        taskStatusRepository.deleteAll();
-
+    //    taskRepository.deleteAll();
+     //   taskStatusRepository.deleteAll();
+        //    userRepository.deleteAll();
+     //   taskRepository.delete(testTask);
     }
 
 
