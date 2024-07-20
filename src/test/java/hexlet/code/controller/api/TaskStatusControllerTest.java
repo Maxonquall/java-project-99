@@ -15,7 +15,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 import hexlet.code.mapper.TaskStatusMapper;
+import hexlet.code.repository.LabelRepository;
+import hexlet.code.repository.TaskRepository;
+import hexlet.code.repository.UserRepository;
 import org.instancio.Instancio;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,10 +55,19 @@ public class TaskStatusControllerTest {
     private TaskStatusRepository taskStatusRepository;
 
     @Autowired
+    private TaskRepository taskRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private TaskStatusMapper taskStatusMapper;
 
     @Autowired
     private ModelGenerator modelGenerator;
+
+    @Autowired
+    private LabelRepository labelRepository;
 
 
     @Autowired
@@ -76,6 +89,14 @@ public class TaskStatusControllerTest {
         testTaskStatus = Instancio.of(modelGenerator.getTaskStatusModel())
                 .create();
         taskStatusRepository.save(testTaskStatus);
+    }
+
+    @AfterEach
+    public void clear() {
+        taskRepository.deleteAll();
+        taskStatusRepository.deleteAll();
+        userRepository.deleteAll();
+        labelRepository.deleteAll();
     }
 
 

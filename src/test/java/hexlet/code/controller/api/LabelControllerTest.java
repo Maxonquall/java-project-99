@@ -16,7 +16,10 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import hexlet.code.controller.api.util.ModelGenerator;
+import hexlet.code.repository.TaskStatusRepository;
+import hexlet.code.repository.UserRepository;
 import org.instancio.Instancio;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,10 +56,16 @@ public class LabelControllerTest {
     private TaskRepository taskRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private ObjectMapper om;
 
     @Autowired
     private WebApplicationContext wac;
+
+    @Autowired
+    private TaskStatusRepository taskStatusRepository;
 
     @Autowired
     private ModelGenerator modelGenerator;
@@ -76,6 +85,14 @@ public class LabelControllerTest {
         testLabel = Instancio.of(modelGenerator.getLabelModel())
                 .create();
         labelRepository.save(testLabel);
+    }
+
+    @AfterEach
+    public void clear() {
+        taskRepository.deleteAll();
+        taskStatusRepository.deleteAll();
+        userRepository.deleteAll();
+        labelRepository.deleteAll();
     }
 
     @Test

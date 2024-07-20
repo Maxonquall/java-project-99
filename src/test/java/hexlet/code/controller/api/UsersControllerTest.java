@@ -15,8 +15,12 @@ import java.util.HashMap;
 
 import hexlet.code.controller.api.util.ModelGenerator;
 import hexlet.code.model.User;
+import hexlet.code.repository.LabelRepository;
+import hexlet.code.repository.TaskRepository;
+import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.UserRepository;
 import org.instancio.Instancio;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +56,15 @@ public class UsersControllerTest {
     private ModelGenerator modelGenerator;
 
     @Autowired
+    private LabelRepository labelRepository;
+
+    @Autowired
+    private TaskRepository taskRepository;
+
+    @Autowired
+    private TaskStatusRepository taskStatusRepository;
+
+    @Autowired
     private ObjectMapper om;
 
     private JwtRequestPostProcessor token;
@@ -70,6 +83,14 @@ public class UsersControllerTest {
         testUser = Instancio.of(modelGenerator.getUserModel())
                 .create();
         userRepository.save(testUser);
+    }
+
+    @AfterEach
+    public void clear() {
+        taskRepository.deleteAll();
+        taskStatusRepository.deleteAll();
+        userRepository.deleteAll();
+        labelRepository.deleteAll();
     }
 
     @Test
