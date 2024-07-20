@@ -84,7 +84,6 @@ public class ModelGenerator {
                 .supply(Select.field(Label::getName), () -> faker.lorem().word() + faker.lorem().sentence())
                 .supply(Select.field(Label::getTasks), () -> new ArrayList<Task>())
                 .toModel();
-
     }
 
     @Bean

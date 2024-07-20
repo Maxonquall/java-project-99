@@ -12,14 +12,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.nio.charset.StandardCharsets;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import hexlet.code.controller.api.util.ModelGenerator;
+import hexlet.code.mapper.TaskMapper;
+import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.UserRepository;
 import net.javacrumbs.jsonunit.core.Option;
-import org.instancio.Instancio;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,6 +46,8 @@ import org.springframework.web.context.WebApplicationContext;
 @AutoConfigureMockMvc
 public class TaskControllerTest {
 
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -60,10 +64,17 @@ public class TaskControllerTest {
     private UserRepository userRepository;
 
     @Autowired
+    private LabelRepository labelRepository;
+
+    @Autowired
     private ModelGenerator modelGenerator;
 
     @Autowired
     private WebApplicationContext wac;
+
+    @Autowired
+    private TaskMapper taskMapper;
+
 
     @Autowired
     private ObjectMapper om;
@@ -84,18 +95,20 @@ public class TaskControllerTest {
                 .build();
 
         token = jwt().jwt(builder -> builder.subject("hexlet@example.com"));
-        testTask = Instancio.of(modelGenerator.getTaskModel())
-                .create();
+        testTask = modelGenerator.getTestTask();
         taskRepository.save(testTask);
+
+        testTaskCreate = modelGenerator.getTestTask();
+
 
     }
 
     @AfterEach
     public void clear() {
-    //    taskRepository.deleteAll();
-     //   taskStatusRepository.deleteAll();
-        //    userRepository.deleteAll();
-     //   taskRepository.delete(testTask);
+        taskRepository.deleteAll();
+        taskStatusRepository.deleteAll();
+        userRepository.deleteAll();
+        labelRepository.deleteAll();
     }
 
 
@@ -122,6 +135,8 @@ public class TaskControllerTest {
         data.put("title", testTaskCreate.getName());
         data.put("index", testTaskCreate.getIndex());
         data.put("content", testTaskCreate.getDescription());
+        data.put("status", testTaskCreate.getTaskStatus().getSlug());
+        data.put("assignee_id", testTaskCreate.getAssignee().getId());
 
         var tasksCount = taskRepository.count();
 
@@ -143,6 +158,7 @@ public class TaskControllerTest {
         assertThat(task.getName()).isEqualTo(testTaskCreate.getName());
         assertThat(task.getDescription()).isEqualTo(testTaskCreate.getDescription());
         assertThat(task.getIndex()).isEqualTo(testTaskCreate.getIndex());
+        assertThat(task.getTaskStatus()).isEqualTo(testTaskCreate.getTaskStatus());
     }
 
     @Test
@@ -212,9 +228,8 @@ public class TaskControllerTest {
                 .andReturn();
 
         var data = new HashMap<>();
-        data.put("assignee_id", testTask.getAssignee().getId());
         data.put("content", testTask.getDescription());
-        data.put("createdAt", testTask.getCreatedAt());
+        data.put("createdAt", testTask.getCreatedAt().format(FORMATTER));
         data.put("id", testTask.getId());
         data.put("index", testTask.getIndex());
         data.put("status", testTask.getTaskStatus().getSlug());
@@ -222,8 +237,7 @@ public class TaskControllerTest {
         data.put("taskLabelIds", List.of(labelId));
 
         var body = result.getResponse().getContentAsString();
-        assertThatJson(body).when(Option.IGNORING_ARRAY_ORDER)
-                .isArray()
-                .contains(om.writeValueAsString(data));
+        assertThatJson(body).when(Option.IGNORING_ARRAY_ORDER).isArray().contains(om.writeValueAsString(data));
     }
+
 }
