@@ -21,6 +21,7 @@ import hexlet.code.controller.api.util.ModelGenerator;
 import hexlet.code.mapper.TaskMapper;
 import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import net.javacrumbs.jsonunit.core.Option;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,6 +45,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class TaskControllerTest {
 
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
