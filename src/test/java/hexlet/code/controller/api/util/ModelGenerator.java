@@ -106,8 +106,6 @@ public class ModelGenerator {
         labelRepository.save(testLabel);
         testTask.getLabels().add(testLabel);
         testLabel.getTasks().add(testTask);
-
         return testTask;
     }
-
 }
