@@ -19,7 +19,6 @@ import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +38,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 public class UsersControllerTest {
 
     @Autowired
