@@ -17,3 +17,4 @@ rsa:
 sentry:
   dsn: https://b9440c518a46d605bac1f3a02458802e@o4507593506750464.ingest.de.sentry.io/4507593511927888
   traces-sample-rate: 1.0
+
