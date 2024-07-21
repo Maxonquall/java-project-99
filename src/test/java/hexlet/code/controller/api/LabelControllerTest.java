@@ -110,7 +110,7 @@ public class LabelControllerTest {
                 .andReturn();
 
         var body = result.getResponse().getContentAsString();
-        var labels = om.readValue(body, new TypeReference<List<Label>>() {});
+        var labels = om.readValue(body, new TypeReference<List<Label>>() { });
         var expected = labelRepository.findAll();
 
         assertThat(labels.containsAll(expected)).isTrue();
