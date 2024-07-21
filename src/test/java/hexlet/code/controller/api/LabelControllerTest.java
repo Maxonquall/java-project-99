@@ -143,7 +143,7 @@ public class LabelControllerTest {
     public void testUpdate() throws Exception {
         var oldName = testLabel.getName();
        // var newName = faker.lorem().word();
-        var newName = faker.lorem().characters(3, 1000);;
+        var newName = faker.lorem().characters(3, 1000);
 
         var data = new HashMap<>();
         data.put("name", newName);
