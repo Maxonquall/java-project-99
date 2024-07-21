@@ -43,8 +43,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-//@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-//@Transactional
 public class LabelControllerTest {
 
     @Autowired
@@ -144,7 +142,8 @@ public class LabelControllerTest {
     @Test
     public void testUpdate() throws Exception {
         var oldName = testLabel.getName();
-        var newName = faker.lorem().word();
+       // var newName = faker.lorem().word();
+        var newName = faker.lorem().characters(3, 1000);;
 
         var data = new HashMap<>();
         data.put("name", newName);
