@@ -37,7 +37,7 @@ public class UsersController {
     private UserMapper userMapper;
 
     @GetMapping("/users")
-    ResponseEntity<List<UserDTO>> index() {
+    public ResponseEntity<List<UserDTO>> index() {
         var users = repository.findAll();
         var result = users.stream()
                 .map(userMapper::map)
@@ -49,7 +49,7 @@ public class UsersController {
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    UserDTO create(@Valid @RequestBody UserCreateDTO userData) {
+    public UserDTO create(@Valid @RequestBody UserCreateDTO userData) {
         var user = userMapper.map(userData);
         repository.save(user);
         return userMapper.map(user);
@@ -57,7 +57,7 @@ public class UsersController {
 
     @PutMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
-    UserDTO update(@RequestBody UserUpdateDTO userData, @PathVariable Long id) {
+    public UserDTO update(@RequestBody UserUpdateDTO userData, @PathVariable Long id) {
         var user = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not Found"));
         userMapper.update(userData, user);
@@ -68,7 +68,7 @@ public class UsersController {
 
     @GetMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
-    UserDTO show(@PathVariable Long id) {
+    public UserDTO show(@PathVariable Long id) {
         var user = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not Found"));
         return userMapper.map(user);
