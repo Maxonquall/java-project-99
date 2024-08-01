@@ -4,17 +4,19 @@ package hexlet.code.component;
 
 import hexlet.code.model.TaskStatus;
 import hexlet.code.model.Label;
+import hexlet.code.repository.LabelRepository;
+import hexlet.code.repository.TaskStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import hexlet.code.model.User;
-import hexlet.code.repository.UserRepository;
 import hexlet.code.service.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
 import net.datafaker.Faker;
 
+import java.util.List;
 
 
 @Component
@@ -22,7 +24,10 @@ import net.datafaker.Faker;
 public class DataInitializer implements ApplicationRunner {
 
     @Autowired
-    private final UserRepository userRepository;
+    private final TaskStatusRepository taskStatusRepository;
+
+    @Autowired
+    private final LabelRepository labelRepository;
 
     @Autowired
     private final CustomUserDetailsService userService;
@@ -58,14 +63,23 @@ public class DataInitializer implements ApplicationRunner {
         published.setName("published");
         published.setSlug("published");
 
+        taskStatusRepository.saveAll(List.of(
+                draft,
+                toReview,
+                toBeFixed,
+                toPublish,
+                published
+        ));
+
         var feature = new Label();
         feature.setName("feature");
 
         var bug = new Label();
         bug.setName("bug");
 
+        labelRepository.saveAll(List.of(
+                feature,
+                bug
+        ));
     }
-
-
-
 }

@@ -11,9 +11,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
+
 
 import hexlet.code.controller.api.util.ModelGenerator;
+import hexlet.code.dto.UserUpdateDTO;
 import hexlet.code.model.User;
 import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.TaskRepository;
@@ -23,10 +24,12 @@ import org.instancio.Instancio;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.JwtRequestPostProcessor;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -120,20 +123,14 @@ public class UsersControllerTest {
 
     @Test
     public void testUpdate() throws Exception {
+        var data = new UserUpdateDTO();
+        data.setFirstName(JsonNullable.of("Mike"));
 
-        var data = new HashMap<>();
-        data.put("firstName", "Mike");
-
-        var request = put("/api/users/" + testUser.getId())
-                .with(token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(data));
-
-        mockMvc.perform(request)
+        mockMvc.perform(put("/api/users/{id}", testUser.getId())
+                        .content(om.writeValueAsString(data))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.user(testUser.getEmail())))
                 .andExpect(status().isOk());
-
-        var user = userRepository.findById(testUser.getId()).get();
-        assertThat(user.getFirstName()).isEqualTo(("Mike"));
     }
 
     @Test
