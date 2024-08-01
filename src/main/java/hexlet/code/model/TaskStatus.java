@@ -34,11 +34,13 @@ public class TaskStatus implements BaseEntity {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(unique = true)
+//    @Column(unique = true)
+    @Column
     @NotBlank
     private String name;
 
-    @Column(unique = true)
+//    @Column(unique = true)
+    @Column
     @NotBlank
     private String slug;
 
