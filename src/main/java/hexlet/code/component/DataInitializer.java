@@ -63,13 +63,18 @@ public class DataInitializer implements ApplicationRunner {
         published.setName("published");
         published.setSlug("published");
 
-        taskStatusRepository.saveAll(List.of(
+        var defaultTaskStatuses = List.of(
                 draft,
                 toReview,
                 toBeFixed,
                 toPublish,
                 published
-        ));
+        );
+
+        for (var taskStatus : defaultTaskStatuses) {
+            taskStatusRepository.save(taskStatus);
+        }
+
 
         var feature = new Label();
         feature.setName("feature");
@@ -77,9 +82,12 @@ public class DataInitializer implements ApplicationRunner {
         var bug = new Label();
         bug.setName("bug");
 
-        labelRepository.saveAll(List.of(
+        var defaultLabels = List.of(
                 feature,
                 bug
-        ));
+        );
+        for (var label : defaultLabels) {
+            labelRepository.save(label);
+        }
     }
 }
