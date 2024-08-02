@@ -71,11 +71,6 @@ public class DataInitializer implements ApplicationRunner {
                 published
         );
 
-        for (var taskStatus : defaultTaskStatuses) {
-            taskStatusRepository.save(taskStatus);
-        }
-
-
         var feature = new Label();
         feature.setName("feature");
 
@@ -86,6 +81,11 @@ public class DataInitializer implements ApplicationRunner {
                 feature,
                 bug
         );
+
+        for (var taskStatus : defaultTaskStatuses) {
+            taskStatusRepository.save(taskStatus);
+        }
+
         for (var label : defaultLabels) {
             labelRepository.save(label);
         }
