@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import hexlet.code.model.User;
 import hexlet.code.service.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
-import net.datafaker.Faker;
+
 
 import java.util.List;
 
@@ -34,11 +34,8 @@ public class DataInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        var admin = new User();
-        var faker = new Faker();
 
-        admin.setFirstName(faker.name().firstName());
-        admin.setLastName(faker.name().lastName());
+        var admin = new User();
         admin.setEmail("hexlet@example.com");
         admin.setPasswordDigest("qwerty");
         userService.createUser(admin);
